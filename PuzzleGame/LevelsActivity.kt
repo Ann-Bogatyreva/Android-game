@@ -29,6 +29,7 @@ class LevelsActivity : AppCompatActivity() {
         binding.level10.setOnClickListener { startGameActivity("igolka") }
     }
 
+    
     private fun startGameActivity(imageName: String) {
         val intent = Intent(this, GameActivity::class.java)
         intent.putExtra("IMAGE_NAME", imageName)
