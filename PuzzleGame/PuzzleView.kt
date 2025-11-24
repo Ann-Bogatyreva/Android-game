@@ -1,5 +1,5 @@
 //тут типо будет сама логика игры и ломание на пазл//
-package com.example.puzzle
+package com.example.puzzlegame
 
 import android.content.Context
 import android.graphics.*
@@ -46,18 +46,18 @@ class PuzzleView @JvmOverloads constructor(
         pieces.clear()
         slots.clear()
 
-        image?.let { bitmap ->
+        image?.let { _ -> 
             pieceWidth = width / difficulty
             pieceHeight = height / difficulty
 
             for (row in 0 until difficulty) {
                 for (col in 0 until difficulty) {
-                    // Create slots
+                    // pystoii slot
                     val slot = Rect(col * pieceWidth, row * pieceHeight,
                         (col + 1) * pieceWidth, (row + 1) * pieceHeight)
                     slots.add(slot)
 
-                    // Create pieces with random positions
+                    // random posistiia
                     val randomX = Random.nextInt(width - pieceWidth)
                     val randomY = Random.nextInt(height - pieceHeight)
 
@@ -77,7 +77,7 @@ class PuzzleView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        // Risyem ditali
+        // detalki
         pieces.forEach { piece ->
             if (!piece.isPlacedCorrectly) {
                 image?.let { bitmap ->
@@ -90,7 +90,7 @@ class PuzzleView @JvmOverloads constructor(
 
                     canvas.drawBitmap(bitmap, srcRect, piece.currentPosition, null)
 
-                    // granichi yrovnia
+                    // risyem
                     val borderPaint = Paint().apply {
                         color = if (piece == selectedPiece) Color.GREEN else Color.parseColor("#00ff00f0")
                         style = Paint.Style.STROKE
@@ -101,7 +101,7 @@ class PuzzleView @JvmOverloads constructor(
             }
         }
 
-        // Proverka pazla (?kartinka)
+        // sobrannost puzzla
         if (pieces.all { it.isPlacedCorrectly }) {
             onCompleteListener?.invoke()
         }
@@ -141,14 +141,14 @@ class PuzzleView @JvmOverloads constructor(
         }
         return true
     }
-}
 
-data class PuzzlePiece(
-    val id: Int,
-    val originalRow: Int,
-    val originalCol: Int,
-    var currentPosition: Rect,
-    val correctPosition: Rect
-) {
-    var isPlacedCorrectly = false
+    data class PuzzlePiece(
+        val id: Int,
+        val originalRow: Int,
+        val originalCol: Int,
+        var currentPosition: Rect,
+        val correctPosition: Rect
+    ) {
+        var isPlacedCorrectly = false
+    }
 }
