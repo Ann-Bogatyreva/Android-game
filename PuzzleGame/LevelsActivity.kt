@@ -1,35 +1,37 @@
 //уровни, переходы, кнопки//
-package com.example.puzzle
+package com.example.puzzlegame
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_levels.*
+import com.example.puzzlegame.databinding.ActivityLevelsBinding
 
 class LevelsActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityLevelsBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_levels)
 
-        val levels = mapOf(
-            R.id.level1 to "cube",
-            R.id.level2 to "apple",
-            R.id.level3 to "kot",
-            R.id.level4 to "ball",
-            R.id.level5 to "map",
-            R.id.level6 to "sword",
-            R.id.level7 to "flowers",
-            R.id.level8 to "car",
-            R.id.level9 to "tower",
-            R.id.level10 to "igolka"
-        )
+        binding = ActivityLevelsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        levels.forEach { (buttonId, imageName) ->
-            findViewById<android.widget.Button>(buttonId)?.setOnClickListener {
-                val intent = Intent(this, GameActivity::class.java)
-                intent.putExtra("IMAGE_NAME", imageName)
-                startActivity(intent)
-            }
-        }
+        // Обработчики нажатий через binding
+        binding.level1.setOnClickListener { startGameActivity("cube") }
+        binding.level2.setOnClickListener { startGameActivity("apple") }
+        binding.level3.setOnClickListener { startGameActivity("kot") }
+        binding.level4.setOnClickListener { startGameActivity("ball") }
+        binding.level5.setOnClickListener { startGameActivity("map") }
+        binding.level6.setOnClickListener { startGameActivity("sword") }
+        binding.level7.setOnClickListener { startGameActivity("flowers") }
+        binding.level8.setOnClickListener { startGameActivity("car") }
+        binding.level9.setOnClickListener { startGameActivity("tower") }
+        binding.level10.setOnClickListener { startGameActivity("igolka") }
+    }
+
+    private fun startGameActivity(imageName: String) {
+        val intent = Intent(this, GameActivity::class.java)
+        intent.putExtra("IMAGE_NAME", imageName)
+        startActivity(intent)
     }
 }
