@@ -1,71 +1,45 @@
-\\изображение на уровнЯх + кнопки сложности\\
-package com.example.puzzle
+//изображение на уровнЯх + кнопки сложности\\
+package com.example.puzzlegame
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_game.*
 
 class GameActivity : AppCompatActivity() {
-    private lateinit var puzzleView: PuzzleView
-    private var currentDifficulty = 3
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
+        val puzzleView = findViewById<PuzzleView>(R.id.puzzle_view)
+        val levelTitle = findViewById<TextView>(R.id.level_title)
+
+        // Получаем имя изображения из Intent
         val imageName = intent.getStringExtra("IMAGE_NAME") ?: "cube"
         val imageResId = resources.getIdentifier(imageName, "drawable", packageName)
 
-        puzzleView = findViewById(R.id.puzzle_view)
+        // Устанавливаем изображение в PuzzleView
         puzzleView.setImageResource(imageResId)
-        puzzleView.setDifficulty(currentDifficulty)
 
-        setupLevelTitle(imageName)
-        setupButtons()
+        // Настройка кнопок сложности
+        setupDifficultyButtons(puzzleView)
     }
 
-    private fun setupLevelTitle(imageName: String) {
-        val titles = mapOf(
-            "cube" to "Собери кубик",
-            "apple" to "Собери яблоко",
-            "kot" to "Собери котиков",
-            "ball" to "Собери мяч",
-            "map" to "Собери карту",
-            "sword" to "Собери меч",
-            "flowers" to "Собери цветок в горшке",
-            "car" to "Собери машину",
-            "tower" to "Собери башню",
-            "igolka" to "Собери иголку с ниткой"
-        )
-
-        findViewById<TextView>(R.id.level_title).text = titles[imageName]
-    }
-
-    private fun setupButtons() {
-        findViewById<Button>(R.id.btn_restart).setOnClickListener {
-            puzzleView.restartPuzzle()
-        }
-
+    private fun setupDifficultyButtons(puzzleView: PuzzleView) {
         findViewById<Button>(R.id.btn_3x3).setOnClickListener {
-            currentDifficulty = 3
             puzzleView.setDifficulty(3)
         }
-
         findViewById<Button>(R.id.btn_5x5).setOnClickListener {
-            currentDifficulty = 5
             puzzleView.setDifficulty(5)
         }
-
         findViewById<Button>(R.id.btn_7x7).setOnClickListener {
-            currentDifficulty = 7
             puzzleView.setDifficulty(7)
         }
-
         findViewById<Button>(R.id.btn_10x10).setOnClickListener {
-            currentDifficulty = 10
             puzzleView.setDifficulty(10)
+        }
+        findViewById<Button>(R.id.btn_restart).setOnClickListener {
+            puzzleView.restartPuzzle()
         }
     }
 }
